@@ -46,7 +46,7 @@ $ ->
         .defer(d3.json, "sections.topojson")
         .defer(d3.csv, "data.csv", processRow)
         .await (error, index, sections) ->
-            console.dir index
+
             sectionToPost = MC: {}, CV: {}
             for p, {type} of index.posts when type in ["MC", "CV"]
                 for k of results[p]
@@ -170,10 +170,10 @@ $ ->
 
                 map.addLayer(layer)
 
-            updateMap "0,00"
 
 
             select = $("<select>").css(width: "240px")
+            select.append $("<option>")
             optGroup = $("<optgroup>").attr "label", "Montréal"
             optGroup.append $("<option>").val("0,00").text("Mairie de Montréal")
             optGroup.append $("<option>").val("MC").text("Mairies d'arrondissement")
@@ -191,12 +191,12 @@ $ ->
                     .replace("Conseiller d'arrondissement - District électoral", "CA")
                 optGroup.append $("<option>").val(k).text(nom)
             select.append optGroup
-            select.bind "change", (e) -> 
-                e.preventDefault()
-                updateMap $(this).val()
-                e.stopPropagation()
-                return false
+            select.bind "change", (e) -> updateMap $(this).val()
             $("#sidebar").append(select).append($("<div id='result'>"))
 
-            $("select").chosen({search_contains: true})
+            select.chosen 
+                search_contains: true
+                placeholder_text_single: "Mairie de Montréal"
+            updateMap "0,00"
+
 
