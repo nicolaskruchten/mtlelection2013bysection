@@ -196,7 +196,7 @@ $ ->
 
             select.chosen 
                 search_contains: true
-                placeholder_text_single: "Mairie de Montréal"
+                placeholder_text_single: "Choissez un poste..."
             updateMap "0,00"
 
 

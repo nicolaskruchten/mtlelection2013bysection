@@ -243,7 +243,7 @@
       $("#sidebar").append(select).append($("<div id='result'>"));
       select.chosen({
         search_contains: true,
-        placeholder_text_single: "Mairie de Montréal"
+        placeholder_text_single: "Choissez un poste..."
       });
       return updateMap("0,00");
     });
