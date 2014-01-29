@@ -81,7 +81,6 @@
     };
     return queue().defer(d3.json, "index.json").defer(d3.json, "sections.topojson").defer(d3.csv, "data.csv", processRow).await(function(error, index, sections) {
       var arrondissement, borough, colorForCandidate, k, layer, nom, opacity, optGroup, p, path, postToUse, sectionToPost, select, showResults, type, updateMap, _ref, _ref1, _ref2;
-      console.dir(index);
       sectionToPost = {
         MC: {},
         CV: {}
@@ -218,10 +217,10 @@
         });
         return map.addLayer(layer);
       };
-      updateMap("0,00");
       select = $("<select>").css({
         width: "240px"
       });
+      select.append($("<option>"));
       optGroup = $("<optgroup>").attr("label", "Montréal");
       optGroup.append($("<option>").val("0,00").text("Mairie de Montréal"));
       optGroup.append($("<option>").val("MC").text("Mairies d'arrondissement"));
@@ -239,15 +238,14 @@
       }
       select.append(optGroup);
       select.bind("change", function(e) {
-        e.preventDefault();
-        updateMap($(this).val());
-        e.stopPropagation();
-        return false;
+        return updateMap($(this).val());
       });
       $("#sidebar").append(select).append($("<div id='result'>"));
-      return $("select").chosen({
-        search_contains: true
+      select.chosen({
+        search_contains: true,
+        placeholder_text_single: "Mairie de Montréal"
       });
+      return updateMap("0,00");
     });
   });
 
