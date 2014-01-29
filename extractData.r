@@ -1,9 +1,12 @@
 library(reshape2)
+library(gtools)
+library(stringr)
+
 election2013 <- read.csv("elections-2013-resultats-detailles.csv")
-melted = melt(subset(election2013, Poste == "0"))
-casted = dcast(subset(melted, variable=="Votes"), District+Bureau ~ Candidat)
-casted$section = paste(sprintf("%03d", as.numeric(lapply(strsplit(as.character(casted$District), "-"), "[", 1))),
-                       sprintf("%03d", as.numeric(as.character(casted$Bureau))),sep="-")
-topThree = casted[c("section", "District", "Bureau", "CODERRE Denis", "BERGERON Richard", "JOLY Mélanie", "CΓTÉ Marcel")]
-names(topThree) = c("NOM_SECTION", "District", "Bureau", "Coderre", "Bergeron", "Joly", "Côté")
-write.csv(topThree, file="data.csv", row.names=FALSE)
+election2013$early = ifelse(str_detect(election2013$Bureau, "[096]...?"), "early", "electionday")
+
+election2013$Bureau = factor(election2013$Bureau,mixedsort(levels(election2013$Bureau)))
+compacted = dcast(subset(election2013, early=="electionday"), 
+                  District+Poste+Candidat~Bureau, value.var="Votes", fun.aggregate=sum)
+compacted$District = as.numeric(lapply(strsplit(as.character(compacted$District), "-"), "[", 1))
+write.csv(compacted, file="data.csv", row.names=FALSE)
