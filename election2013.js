@@ -23,8 +23,8 @@
     map = L.map('map', {
       attributionControl: false
     }).setView([45.56, -73.7], 11);
-    L.tileLayer('http://{s}.tile.cloudmade.com/{key}/65636/256/{z}/{x}/{y}.png', {
-      key: "09bd425f79134130bcc6e1763e8c462f",
+    L.tileLayer('https://{s}.tiles.mapbox.com/v3/{key}/{z}/{x}/{y}.png', {
+      key: "nicolaskruchten.hjhj5hff",
       minZoom: 11
     }).addTo(map);
     normalizePoste = function(p) {
