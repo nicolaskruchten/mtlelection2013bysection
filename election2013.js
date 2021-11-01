@@ -23,9 +23,11 @@
     map = L.map('map', {
       attributionControl: false
     }).setView([45.56, -73.7], 11);
-    L.tileLayer('https://{s}.tiles.mapbox.com/v3/{key}/{z}/{x}/{y}.png', {
-      key: "nicolaskruchten.hjhj5hff",
-      minZoom: 11
+    L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+      attribution: '(c) <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors (c) <a href="http://cartodb.com/attributions">CartoDB</a>, CartoDB <a href ="http://cartodb.com/attributions">attributions</a>',
+      minZoom: 11,
+      detectRetina: true,
+      tap: true
     }).addTo(map);
     normalizePoste = function(p) {
       if (__indexOf.call(p, ",") < 0) {
